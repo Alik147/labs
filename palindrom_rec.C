@@ -1,20 +1,20 @@
 #include <stdlib.h>
 #include <cstdio>
-
+#include <ctype.h>
 typedef struct Node
 {
 	char ch;
 	struct Node *next;
 } node;
 
-void rec(node* head, int* is_pali,node** x) {
+void rec(node* head, int* is_pali, node** x) {
 	
 	if (head->next != 0)
 	{
 		rec(head->next,is_pali,x);
 	}
 	node* box = *x;
-	if (box->ch != head->ch)
+	if (toupper(box->ch) != toupper(head->ch))
 	{
 		*is_pali = 0;
 	}
@@ -26,9 +26,8 @@ int main(int argc, char const *argv[])
 	node* head = (node*)malloc(sizeof(node)); // list
 	node* x = head;
 	bool flag = false;
-	while ((c = fgetc(stdin)) != EOF) {
-		if (c!='\n')
-		{
+	while ((c = fgetc(stdin)) != '\n') {
+		
 			if (c!=' ')
 			{
 				if (flag == true){
@@ -42,9 +41,7 @@ int main(int argc, char const *argv[])
 				x->ch = c;
 				x->next = 0;
 			}
-		} else {
-			break;
-		}
+		
 	}
 	int is_pali = 1;
 	rec(head,&is_pali, &head);
