@@ -30,9 +30,8 @@ public:
             this->data[i] = dynamicArray.Get(i);
         }
     }
-
-
-    T Get(int index){
+    
+    T get(int index){
         if (index<0 || index>=size)
         {
             std::cout<<"index out of range"<<std::endl;
@@ -45,7 +44,7 @@ public:
         return this->size;
     }
 
-    void Set(int index,T value){
+    void set(int index,T value){
         if (index<0 || index>=size)
         {
            std::cout<<"index out of range"<<std::endl;
@@ -54,11 +53,11 @@ public:
         }        
     }
     void Resize(int newSize){
-        T* box[newSize] = {};
+        T box[newSize] = {};
         int i = newSize > size ? size : newSize;
         for (int j = 0; j < i; ++j)
         {
-           box[j]=data[j];
+           box[j] = data[j];
         }
         delete[] data;
         this->data = box;
@@ -67,6 +66,7 @@ public:
         for (int i = 0; i < this->size; i++) {
         std::cout << this->data[i] << " ";
         }
+        cout<<"\n";
     }
     ~DynamicArray(){
         delete[] this->data;

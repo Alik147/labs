@@ -27,7 +27,7 @@ public:
     }
 
     void print() override{
-        this->array->print();
+        this->arr->print();
     }
 
     int getLength()  override{
@@ -43,7 +43,7 @@ public:
     }
 
     T get(const int i)  override{
-        return this->array->get(i);
+        return this->arr->get(i);
     }
 
     Sequence<T> *getSubsequence(const int startIndex, const int endIndex) override{
@@ -52,18 +52,18 @@ public:
 
          for (int i = startIndex; i <= endIndex; ++i)
          {
-             box[i-startIndex] = this->arr[i];
+             box[i-startIndex] = this->arr->get(i);
          }
          return new ArraySequence(box, arraySize);
     }
 
     void append(T value) override{
-        this->arr->resize(this->getLength() + 1);
+        this->arr->Resize(this->getLength() + 1);
         this->arr->set(this->getLength() - 1, value);
     }
 
     void prepend(T value) override{
-        this->arr->resize(this->getLength() + 1);
+        this->arr->Resize(this->getLength() + 1);
         for (int i = this->getLength() - 1; i > 0; i--) {
             this->arr->set(i, this->arr->get(i - 1));
         }
@@ -71,20 +71,20 @@ public:
     }
 
     void insertAt(const int index, T value) override{
-        this->arr->resize(this->getLength() + 1);
+        this->arr->Resize(this->getLength() + 1);
         for (int i = this->getLength() - 2; i >= index; i--) {
-            this->arr->set(i + 1, this->array->get(i));
+            this->arr->set(i + 1, this->arr->get(i));
         }
         this->arr->set(index, value);
     }
 
-    virtual Sequence<T> *concat(Sequence<T> *list) override{
+    Sequence<T> *concat(Sequence<T> *list) override{
         const int arraySize = this->getLength() + list->getLength();
         T *box = new T[arraySize];
         int j = 0;
 
         for (int i = 0; i < this->getLength(); i++) {
-            box[j] = this->array->get(i);
+            box[j] = this->arr->get(i);
             j++;
         }
         for (int i = 0; i < list->getLength(); i++) {
@@ -95,8 +95,8 @@ public:
         return new ArraySequence(box, arraySize);
     }
 
-    virtual void set(int index, T value) override{
-        this->array->set(index, value);
+    void set(int index, T value) override{
+        this->arr->set(index, value);
     }
 
     ~ArraySequence() = default;

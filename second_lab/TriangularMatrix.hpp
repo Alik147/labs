@@ -22,7 +22,8 @@ public:
 			{
 				for (int j = 0; j < size; ++j)
 				{
-					std::cout<<this->data[i][j]<<" ";
+					std::cout<<(data[i][j]);
+					std::cout<<" ";
 				}
 				std::cout<<'\n';
 			}
@@ -44,16 +45,26 @@ public:
 	int getSize(){
 		return this->size;
 	}
-	// template<typename TT>
-	// void scalarMultiplication(TT scalar){
-	// 	for (int i = 0; i < this->size; i++)
-	// 		{
-	// 			for (int j = i; j < this->size; ++j)
-	// 			{
-	// 				this->data[i][j] = this->data[i][j]*scalar;
-	// 			}
-	// 		}
-	// }
+	template<typename TT>
+	void scalarMultiplication(TT scalar){
+		for (int i = 0; i < this->size; i++)
+			{
+				for (int j = i; j < this->size; ++j)
+				{
+					this->data[i][j] = this->data[i][j]*scalar;
+				}
+			}
+	}
+	void fill() {
+        for (int i = 0; i < this->size; i++)
+			{
+				for (int j = i; j < this->size; ++j)
+				{
+					std::cin>>this->data[i][j];
+				}
+			}
+    }
+
 	T norm_x() {
 		T norm = 0,box = 0;
 		for (int i = 0; i < this->size; i++)
@@ -61,7 +72,7 @@ public:
 				box = 0;
 				for (int j = i; j < this->size; ++j)
 				{
-					this->box = this->box + data[i][j];
+					box = box + data[i][j];
 				}
 				if (box>norm)
 				{
@@ -77,7 +88,7 @@ public:
 				box = 0;
 				for (int j = 0; j < this->size; ++j)
 				{
-					this->box = this->box + data[j][i];
+					box = box + data[j][i];
 				}
 				if (box>norm)
 				{
@@ -85,6 +96,20 @@ public:
 				}
 			}
 		return norm;
+	}
+	T det() {
+		T detA = 0;
+		if (this->size>1){
+			detA = data[0][0];
+			for (int i = 1; i < this->size; ++i)
+			{
+				detA= detA*data[i][i];
+			}
+		}
+		if (this->size == 1){
+			detA = data[0][0];
+		}
+		return detA;
 	}
 };
 #endif

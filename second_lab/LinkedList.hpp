@@ -33,7 +33,19 @@ public:
         this->head = nullptr;
         }
         else{
-            //DOPILI
+            this->head = list->head;
+            this->tail = list->tail;
+            Element* ptr = this->head;
+            int i = 0;
+            while(ptr != this->tail)
+            {
+                ptr->value = list->get[i];
+                ptr->next = new Element;
+                ptr = ptr->next;
+                i++;
+            }
+            ptr->value = list->get[i];
+            ptr->next = nullptr;
         }
     }
 
@@ -149,6 +161,7 @@ public:
         } else {
             std::cout << "Empty list!\n";
         }
+        cout<<"\n";
     }
 
     ~LinkedList() = default;
