@@ -14,10 +14,11 @@ int main(int argc, char const *argv[])
 	ArraySequence<complex> *DynamicArrayCOMPLEX = nullptr;
 	ArraySequence<int> *DynamicArrayINT = nullptr;
 
+	bool listORarray;
 	string complexORint = "null";
 	string answer = " ";
 
-	cout<<"WELCOME TO  THE LAB2 :)\n";
+	cout<<"WELCOME TO  THE LAB2 :)\n\n";
 	cout<<"0.test TriangularMatrix\n";
 	cout<<"1.test LinkedList\n";
 	cout<<"2.test DynamicArray\n";
@@ -29,12 +30,26 @@ int main(int argc, char const *argv[])
 		{
 			while(answer != "..") {
 				cout<<">TriangularMatrix>";
-
 				cin>>answer;
+					if (answer == "help")
+					{
+						cout<<"\ncreate\n";
+						cout<<"print\n";
+						cout<<"det\n";
+						cout<<"norm\n";
+						cout<<"sum\n";
+						cout<<"multi\n\n";
+
+					}
 				    if (answer == "create")
 				    {
-				    	cout<<"0.Complex\n";
-				    	cout<<"1.Real\n";
+				    	cout<<"\n0.List\n";
+				    	cout<<"1.Array\n\n";
+				    	cout<<">TriangularMatrix>create>";
+				    	cin>>listORarray;
+
+				    	cout<<"\n0.Complex\n";
+				    	cout<<"1.Real\n\n";
 				    	cout<<">TriangularMatrix>create>";
 
 						cin>>complexORint;
@@ -45,7 +60,7 @@ int main(int argc, char const *argv[])
 						if (complexORint == "0")
 						{
 							int size;
-				    		cout<<"Matrix size:";
+				    		cout<<"\nMatrix size:";
 				    		cin>>size;
 				    		complex** arr = new complex*[size];
 				    		for (int i = 0; i < size; ++i)
@@ -68,12 +83,30 @@ int main(int argc, char const *argv[])
 				    				arr[i][j] = x;
 				    			}
 				    		}
-							TriangularMatrixCOMPLEX = new TriangularMatrix<complex>(arr,size);
+				    		if (listORarray)
+				    		{
+				    			ArraySequence<complex>** mat = new ArraySequence<complex>*[size];
+								for (int i = 0; i < size; ++i)
+								{
+									mat[i] = new ArraySequence<complex>(arr[i],size);
+								}
+								TriangularMatrixCOMPLEX = new TriangularMatrix<complex>(reinterpret_cast<Sequence<complex> **>(mat),size,listORarray);
+				    		}
+				    		if (!listORarray)
+				    		{
+				    			LinkedListSequence<complex>** mat = new LinkedListSequence<complex>*[size];
+								for (int i = 0; i < size; ++i)
+								{
+									mat[i] = new LinkedListSequence<complex>(arr[i],size);
+								}
+								TriangularMatrixCOMPLEX = new TriangularMatrix<complex>(reinterpret_cast<Sequence<complex> **>(mat),size,listORarray);
+				    		}
+				    		
 						}
 						if (complexORint == "1")
 						{
 							int size;
-				    		cout<<"Matrix size:";
+				    		cout<<"\nMatrix size:";
 				    		cin>>size;
 				    		int** arr = new int*[size];
 				    		for (int i = 0; i < size; ++i)
@@ -94,7 +127,25 @@ int main(int argc, char const *argv[])
 				    				arr[i][j] = a;
 				    			}
 				    		}
-							TriangularMatrixINT = new TriangularMatrix<int>(arr,size);
+							if (listORarray)
+				    		{
+				    			ArraySequence<int>** mat = new ArraySequence<int>*[size];
+								for (int i = 0; i < size; ++i)
+								{
+									mat[i] = new ArraySequence<int>(arr[i],size);
+								}
+								TriangularMatrixINT = new TriangularMatrix<int>(reinterpret_cast<Sequence<int> **>(mat),size,listORarray);
+				    		}
+				    		if (!listORarray)
+				    		{
+				    			LinkedListSequence<int>** mat = new LinkedListSequence<int>*[size];
+								for (int i = 0; i < size; ++i)
+								{
+									mat[i] = new LinkedListSequence<int>(arr[i],size);
+								}
+								TriangularMatrixINT = new TriangularMatrix<int>(reinterpret_cast<Sequence<int> **>(mat),size,listORarray);
+				    		}
+				    		
 						}
 				    }
 
@@ -125,7 +176,9 @@ int main(int argc, char const *argv[])
 				    }
 
 
-				    if (answer == "norm_x"){
+
+
+				    if (answer == "norm"){
 				    	if (complexORint == "0")
 				    	{
 				    		cout<<"Error\n";
@@ -133,20 +186,7 @@ int main(int argc, char const *argv[])
 
 				    	if (complexORint == "1")
 				    	{
-				    		cout<<TriangularMatrixINT->norm_x()<<endl;
-				    	}
-				    }
-
-
-				    if (answer == "norm_y"){
-				    	if (complexORint == "0")
-				    	{
-				    		cout<<"Error\n";
-				    	}
-
-				    	if (complexORint == "1")
-				    	{
-				    		cout<<TriangularMatrixINT->norm_y()<<endl;
+				    		cout<<TriangularMatrixINT->norm()<<endl;
 				    	}
 				    }
 
@@ -171,10 +211,10 @@ int main(int argc, char const *argv[])
 				    if (answer == "sum"){
 				    	if (complexORint == "0")
 				    	{
-				    		complex** mat = new complex*[TriangularMatrixCOMPLEX->getSize()];
+				    		complex** arr = new complex*[TriangularMatrixCOMPLEX->getSize()];
 				    		for (int i = 0; i < TriangularMatrixCOMPLEX->getSize(); ++i)
 				    		{
-				    			mat[i] = new complex[TriangularMatrixCOMPLEX->getSize()];
+				    			arr[i] = new complex[TriangularMatrixCOMPLEX->getSize()];
 				    		}
 				    		for (int i = 0; i < TriangularMatrixCOMPLEX->getSize(); ++i)
 				    		{
@@ -182,43 +222,81 @@ int main(int argc, char const *argv[])
 				    			{
 				    				complex x;
 				    				cout<<x<<" ";
-				    				mat[i][j] = x;
+				    				arr[i][j] = x;
 				    			}
 				    			for (int j = i; j < TriangularMatrixCOMPLEX->getSize(); ++j)
 				    			{
 				    				int a,b;
 				    				cin>>a>>b;
 				    				complex x(a,b);
-				    				mat[i][j] = x;
+				    				arr[i][j] = x;
 				    			}
 				    		}
-				    		TriangularMatrix<complex> newmat(mat, TriangularMatrixCOMPLEX->getSize());
-				    		TriangularMatrixCOMPLEX->sum_with(newmat);
+				    		TriangularMatrix<complex>* newmat;
+				    		if (listORarray)
+				    		{
+				    			ArraySequence<complex>** mat = new ArraySequence<complex>*[TriangularMatrixCOMPLEX->getSize()];
+								for (int i = 0; i < TriangularMatrixCOMPLEX->getSize(); ++i)
+								{
+									mat[i] = new ArraySequence<complex>(arr[i],TriangularMatrixCOMPLEX->getSize());
+								}
+								newmat = new TriangularMatrix<complex>(reinterpret_cast<Sequence<complex> **>(mat),TriangularMatrixCOMPLEX->getSize(),listORarray);
+				    		}
+				    		if (!listORarray)
+				    		{
+				    			LinkedListSequence<complex>** mat = new LinkedListSequence<complex>*[TriangularMatrixCOMPLEX->getSize()];
+								for (int i = 0; i < TriangularMatrixCOMPLEX->getSize(); ++i)
+								{
+									mat[i] = new LinkedListSequence<complex>(arr[i],TriangularMatrixCOMPLEX->getSize());
+								}
+								newmat = new TriangularMatrix<complex>(reinterpret_cast<Sequence<complex> **>(mat),TriangularMatrixCOMPLEX->getSize(),listORarray);
+				    		}
+				    		
+				    		TriangularMatrixCOMPLEX->sum_with(*newmat);
 				    	}
 
 				    	if (complexORint == "1")
 				    	{
-				    		int** mat = new int*[TriangularMatrixINT->getSize()];
+				    		int** arr = new int*[TriangularMatrixINT->getSize()];
 				    		for (int i = 0; i < TriangularMatrixINT->getSize(); ++i)
 				    		{
-				    			mat[i] = new int[TriangularMatrixINT->getSize()];
+				    			arr[i] = new int[TriangularMatrixINT->getSize()];
 				    		}
 				    		for (int i = 0; i < TriangularMatrixINT->getSize(); ++i)
 				    		{
 				    			for (int j = 0; j < i; ++j)
 				    			{
 				    				cout<<"0 ";
-				    				mat[i][j] = 0;
+				    				arr[i][j] = 0;
 				    			}
 				    			for (int j = i; j < TriangularMatrixINT->getSize(); ++j)
 				    			{
 				    				int a;
 				    				cin>>a;
-				    				mat[i][j] = a;
+				    				arr[i][j] = a;
 				    			}
 				    		}
-				    		TriangularMatrix<int> newmat(mat, TriangularMatrixINT->getSize());
-				    		TriangularMatrixINT->sum_with(newmat);
+				    		TriangularMatrix<int>* newmat;
+				    		if (listORarray)
+				    		{
+				    			ArraySequence<int>** mat = new ArraySequence<int>*[TriangularMatrixINT->getSize()];
+								for (int i = 0; i < TriangularMatrixINT->getSize(); ++i)
+								{
+									mat[i] = new ArraySequence<int>(arr[i],TriangularMatrixINT->getSize());
+								}
+								newmat = new TriangularMatrix<int>(reinterpret_cast<Sequence<int> **>(mat),TriangularMatrixINT->getSize(),listORarray);
+				    		}
+				    		if (!listORarray)
+				    		{
+				    			LinkedListSequence<int>** mat = new LinkedListSequence<int>*[TriangularMatrixINT->getSize()];
+								for (int i = 0; i < TriangularMatrixINT->getSize(); ++i)
+								{
+									mat[i] = new LinkedListSequence<int>(arr[i],TriangularMatrixINT->getSize());
+								}
+								newmat = new TriangularMatrix<int>(reinterpret_cast<Sequence<int> **>(mat),TriangularMatrixINT->getSize(),listORarray);
+				    		}
+				    		
+				    		TriangularMatrixINT->sum_with(*newmat);
 				    	}
 				    }
 				}	
@@ -232,8 +310,8 @@ int main(int argc, char const *argv[])
 
 
 				if (answer == "create"){
-			    	cout<<"0.Complex\n";
-			    	cout<<"1.Real\n";
+			    	cout<<"\n0.Complex\n";
+			    	cout<<"1.Real\n\n";
 			    	cout<<">LinkedList>create>";
 
 					cin>>complexORint;
@@ -241,7 +319,7 @@ int main(int argc, char const *argv[])
 							cout<<">LinkedList>create>";
 						    cin>>complexORint;
 						}
-					cout<<"List size:";
+					cout<<"\nList size:";
 					int size;
 					cin>>size;
 					if (complexORint == "0")
@@ -379,8 +457,8 @@ int main(int argc, char const *argv[])
 					cin>>answer;
 
 						if (answer == "create"){
-					    	cout<<"0.Complex\n";
-					    	cout<<"1.Real\n";
+					    	cout<<"\n0.Complex\n";
+					    	cout<<"1.Real\n\n";
 					    	cout<<">DynamicArray>create>";
 
 							cin>>complexORint;
@@ -388,7 +466,7 @@ int main(int argc, char const *argv[])
 									cout<<">DynamicArray>create>";
 								    cin>>complexORint;
 								}
-							cout<<"Array size:";
+							cout<<"\nArray size:";
 							int size;
 							cin>>size;
 							if (complexORint == "0")
@@ -487,7 +565,7 @@ int main(int argc, char const *argv[])
 				if (answer == "concat")
 				{
 					int size;
-					cout<<"Size of new list : ";
+					cout<<"\nSize of new list : ";
 					cin>>size;
 					if (complexORint == "0")
 					{

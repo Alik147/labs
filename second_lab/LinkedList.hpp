@@ -161,7 +161,7 @@ public:
         } else {
             std::cout << "Empty list!\n";
         }
-        cout<<"\n";
+        std::cout<<"\n";
     }
 
     ~LinkedList() = default;

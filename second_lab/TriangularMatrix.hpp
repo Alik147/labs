@@ -3,29 +3,53 @@
 #include "ArraySequence.hpp"
 #include "LinkedListSequence.hpp"
 #include "complex.hpp"
+#include <cmath>
 template<class T>
 class TriangularMatrix
 {
 private:
-	T** data;
+	Sequence<Sequence<T>*> *data;
 	int size;
+	bool listORarray;
 public:
-	TriangularMatrix(){
-		data = nullptr;
-	}
-	TriangularMatrix(T** data_ , int size_){
-		this->size = size_;
-		this->data = data_;
+	TriangularMatrix(Sequence<T> **mat,int size, bool listORarray){
+		this->listORarray = listORarray;
+		this->size = size;
+		if (listORarray)
+		{
+			this->data = new ArraySequence<Sequence<T>*>(mat,size);
+		}
+		if (!listORarray)
+		{
+			this->data = new LinkedListSequence<Sequence<T>*>(mat,size);
+		}
+		for (int i = 0; i < size; ++i)
+		{
+			for (int j = 0; j < size; ++j)
+			{
+				this->data->get(i)->set(j, mat[i]->get(j));
+			}
+		}
 	}
 	void print(){
 		for (int i = 0; i < size; i++)
 			{
 				for (int j = 0; j < size; ++j)
 				{
-					std::cout<<(data[i][j]);
+					std::cout<<(data->get(i)->get(j));
 					std::cout<<" ";
 				}
 				std::cout<<'\n';
+			}
+	}
+	template<class TT>
+	void scalarMultiplication(TT scalar){
+		for (int i = 0; i < this->size; i++)
+			{
+				for (int j = i; j < this->size; ++j)
+				{
+					this->data->get(i)->set(j,this->data->get(i)->get(j)*scalar);
+				}
 			}
 	}
 	void sum_with(TriangularMatrix<T> matrix){
@@ -37,79 +61,37 @@ public:
 			{
 				for (int j = i; j < size; ++j)
 				{
-					this->data[i][j] = this->data[i][j] + matrix.data[i][j];
+					this->data->get(i)->set(j,this->data->get(i)->get(j) + matrix.data->get(i)->get(j));
 				}
 			}
 		}
 	}
-	int getSize(){
-		return this->size;
-	}
-	template<typename TT>
-	void scalarMultiplication(TT scalar){
-		for (int i = 0; i < this->size; i++)
-			{
-				for (int j = i; j < this->size; ++j)
-				{
-					this->data[i][j] = this->data[i][j]*scalar;
-				}
-			}
-	}
-	void fill() {
-        for (int i = 0; i < this->size; i++)
-			{
-				for (int j = i; j < this->size; ++j)
-				{
-					std::cin>>this->data[i][j];
-				}
-			}
-    }
-
-	T norm_x() {
-		T norm = 0,box = 0;
-		for (int i = 0; i < this->size; i++)
-			{
-				box = 0;
-				for (int j = i; j < this->size; ++j)
-				{
-					box = box + data[i][j];
-				}
-				if (box>norm)
-				{
-					norm = box;
-				}
-			}
-		return norm;
-	}
-	T norm_y(){
-		T norm = 0,box = 0;
-		for (int i = 0; i < this->size; i++)
-			{
-				box = 0;
-				for (int j = 0; j < this->size; ++j)
-				{
-					box = box + data[j][i];
-				}
-				if (box>norm)
-				{
-					norm = box;
-				}
-			}
-		return norm;
+	double norm() {
+    	double Sum = 0;
+	    for (int i = 0; i < this->size; i++) {
+	        for (int j = 0; j < this->size; j++) {
+	            Sum += this->data->get(i)->get(j) * this->data->get(i)->get(j);
+	        }
+	    }
+	    return sqrt(Sum);
 	}
 	T det() {
 		T detA = 0;
 		if (this->size>1){
-			detA = data[0][0];
+			detA = data->get(0)->get(0);
 			for (int i = 1; i < this->size; ++i)
 			{
-				detA= detA*data[i][i];
+				detA= detA*data->get(i)->get(i);
 			}
 		}
 		if (this->size == 1){
-			detA = data[0][0];
+			detA = data->get(0)->get(0);
 		}
 		return detA;
 	}
+	int getSize(){
+		return this->size;
+	}
+	~TriangularMatrix() = default;
 };
 #endif

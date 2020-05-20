@@ -66,7 +66,7 @@ public:
         for (int i = 0; i < this->size; i++) {
         std::cout << this->data[i] << " ";
         }
-        cout<<"\n";
+        std::cout<<"\n";
     }
     ~DynamicArray(){
         delete[] this->data;
