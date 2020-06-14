@@ -1,6 +1,6 @@
 #ifndef SEQUENCE_HPP
 #define SEQUENCE_HPP
-
+#include <functional>
 template<class T>
 class Sequence {
 public:
@@ -25,6 +25,8 @@ public:
     virtual Sequence<T> *concat(Sequence<T> *list) = 0;
 
     virtual void print() = 0;
+
+    virtual void deleteEllement(std::function<bool(T item)> func) = 0;
 };
 
 #endif

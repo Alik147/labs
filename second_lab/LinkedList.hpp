@@ -151,6 +151,25 @@ public:
         return new LinkedList(elemArray, this->getLength() + list->getLength());
     }
 
+    void deleteEllement (std::function<bool(T item)> func) {
+        Element* ptr = this->head;
+        Element* help = ptr;
+        while (func(head->value))
+        {
+            this->head = this->head->next;
+            ptr = this->head;
+        }
+        while (ptr != nullptr) {
+            if (func(ptr->value))
+            {
+                help->next = ptr->next;
+                help = ptr;
+            }
+            help = ptr;
+            ptr = ptr->next;
+            }
+    }
+
     void print(){
         if (this->head != nullptr) {
             Element *temp = this->head;

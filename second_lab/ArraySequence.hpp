@@ -4,6 +4,7 @@
 #include "Sequence.hpp"
 #include "DynamicArray.hpp"
 #include "complex.hpp"
+#include <functional>
 
 template<class T>
 class ArraySequence : public Sequence<T> {
@@ -93,6 +94,10 @@ public:
         }
 
         return new ArraySequence(box, arraySize);
+    }
+
+    void deleteEllement(std::function<bool(T item)> func) override {
+        this->arr->deleteEllement(func);
     }
 
     void set(int index, T value) override{

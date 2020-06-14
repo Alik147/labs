@@ -4,6 +4,7 @@
 #include "LinkedListSequence.hpp"
 #include "complex.hpp"
 #include <cmath>
+
 template<class T>
 class TriangularMatrix
 {

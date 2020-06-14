@@ -1,6 +1,6 @@
 #ifndef DYN_ARRAY
 #define DYN_ARRAY
-
+#include <functional>
 template<class T>
 class DynamicArray
 {
@@ -53,7 +53,7 @@ public:
         }        
     }
     void Resize(int newSize){
-        T box[newSize] = {};
+        T* box = new T[newSize];
         int i = newSize > size ? size : newSize;
         for (int j = 0; j < i; ++j)
         {
@@ -61,12 +61,26 @@ public:
         }
         delete[] data;
         this->data = box;
+        this->size = newSize;
     }
     void print() {
         for (int i = 0; i < this->size; i++) {
         std::cout << this->data[i] << " ";
         }
         std::cout<<"\n";
+    }
+    void deleteEllement (std::function<bool(T item)> func) {
+        for (int i = 0; i < this->size; i++) {
+            if (func(this->data[i]) == true)
+            {
+
+               for (int j = i; j < this->size - 1; ++j)
+               {
+                   this->data[j] = this->data[j+1];
+               }
+               this->Resize(this->size - 1);
+            }
+        }
     }
     ~DynamicArray(){
         delete[] this->data;

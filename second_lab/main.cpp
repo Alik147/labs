@@ -3,6 +3,7 @@
 #include "ArraySequence.hpp"
 #include "LinkedListSequence.hpp"
 #include "TriangularMatrix.hpp"
+#include <functional>
 
 using namespace std;
 int main(int argc, char const *argv[])
@@ -327,7 +328,7 @@ int main(int argc, char const *argv[])
 						complex* arr = new complex[size];
 						for (int i = 0; i < size; ++i)
 						{
-							cout<<"%d (a+bi) : ";
+							cout<<i<<" (a+bi) : ";
 							int a,b;
 							cin>>a>>b;
 							complex x(a,b);
@@ -360,6 +361,24 @@ int main(int argc, char const *argv[])
 					}
 				}
 
+				if (answer == "delete")
+				{
+					if (complexORint == "0")
+					{
+						
+					}
+
+					if (complexORint == "1")
+					{
+						LinkedListINT->deleteEllement([](const int& item){
+							if (item == 1) {
+								return true;
+							} else{
+								return false;
+							}
+						});
+					}
+				}
 
 				if (answer == "append")
 				{
@@ -559,6 +578,25 @@ int main(int argc, char const *argv[])
 					if (complexORint == "1")
 					{
 						DynamicArrayINT->getSubsequence(start,end)->print();
+					}
+				}
+
+				if (answer == "delete")
+				{
+					if (complexORint == "0")
+					{
+						
+					}
+
+					if (complexORint == "1")
+					{
+						DynamicArrayINT->deleteEllement([](const int& item){
+							if (item == 1) {
+								return true;
+							} else{
+								return false;
+							}
+						});
 					}
 				}
 

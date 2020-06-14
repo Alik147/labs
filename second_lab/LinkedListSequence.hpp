@@ -4,6 +4,7 @@
 #include "Sequence.hpp"
 #include "LinkedList.hpp"
 #include "complex.hpp"
+#include <functional>
 
 template<class T>
 class LinkedListSequence : public Sequence<T> {
@@ -85,6 +86,10 @@ public:
 
     void print() override{
     	this->list->print();
+    }
+
+    void deleteEllement(std::function<bool(T item)> func) override {
+        this->list->deleteEllement(func);
     }
 
     ~LinkedListSequence() = default;
