@@ -20,65 +20,86 @@
 
 using namespace std;
 
-void fillVector(size_t size, std::vector<int>* v){
+void arrSeqFill(size_t size, ArraySequence<int>* v){
 	for (int i = 0; i < size; ++i)
 	{
-		v->push_back(rand() % 1000000);
+		v->append(rand() % 1000000);
 	}
 }
+
+void bublleSortTest(){
+	ArraySequence<int> arrSeq;
+	arrSeqFill(10000, &arrSeq);
+	ArraySequence<int> arrSeqWorking = arrSeq;
+	auto* correctSorter = new qsorter<int>;
+	correctSorter->sort(&arrSeq, &lessThan<int>);
+	{
+		LOG_DURATION("Sort with bubblesorter");
+		auto* sorter = new bubblesorter<int>;
+		sorter->sort(&arrSeqWorking, &lessThan<int>);
+	}
+	
+	ASSERT_EQUAL(arrSeq, arrSeqWorking);
+}
+
+void qSortTest(){
+	ArraySequence<int> arrSeq;
+	arrSeqFill(10000, &arrSeq);
+	ArraySequence<int> arrSeqWorking = arrSeq;
+	auto* correctSorter = new bubblesorter<int>;
+	correctSorter->sort(&arrSeq, &lessThan<int>);
+	{
+		LOG_DURATION("Sort with qsorter");
+		auto* sorter = new qsorter<int>;
+		sorter->sort(&arrSeqWorking, &lessThan<int>);
+	}
+	
+	ASSERT_EQUAL(arrSeq, arrSeqWorking);
+}
+
+void mergeSortTest(){
+	ArraySequence<int> arrSeq;
+	arrSeqFill(10000, &arrSeq);
+	ArraySequence<int> arrSeqWorking = arrSeq;
+	auto* correctSorter = new qsorter<int>;
+	correctSorter->sort(&arrSeq, &lessThan<int>);
+	{
+		LOG_DURATION("Sort with mergesorter");
+		auto* sorter = new mergesorter<int>;
+		sorter->sort(&arrSeqWorking, &lessThan<int>);
+	}
+	
+	ASSERT_EQUAL(arrSeq, arrSeqWorking);
+}
+
+void shellSortTest(){
+	ArraySequence<int> arrSeq;
+	arrSeqFill(10000, &arrSeq);
+	ArraySequence<int> arrSeqWorking = arrSeq;
+	auto* correctSorter = new qsorter<int>;
+	correctSorter->sort(&arrSeq, &lessThan<int>);
+	{
+		LOG_DURATION("Sort with shellsorter");
+		auto* sorter = new shellsorter<int>;
+		sorter->sort(&arrSeqWorking, &lessThan<int>);
+	}
+	// arrSeqWorking.print();
+	
+	ASSERT_EQUAL(arrSeq, arrSeqWorking);
+}
+
+void TestAll() {
+  TestRunner tr;
+  RUN_TEST(tr, bublleSortTest);
+  RUN_TEST(tr, shellSortTest);
+  RUN_TEST(tr, mergeSortTest);
+  RUN_TEST(tr, qSortTest);
+}
+
 
 int main(int argc, char const *argv[])
 {
 	srand((unsigned)time(NULL));
-	ArraySequence<int> arrSeq;
-	std::vector<int> rnd_vector;
-	fillVector(10000, &rnd_vector);
-	for (int i = 0; i < rnd_vector.size(); ++i)
-	{
-		arrSeq.append(rnd_vector[i]);
-	}
-	ArraySequence<int> arrSeqWorking = arrSeq;
-	auto* correctSorter = new qsorter<int>;
-	Sequence<int>* correct = correctSorter->sort(&arrSeqWorking, &lessThan<int>);
-	// correct->print();
-	{
-		LOG_DURATION("Sort with bubblesorter");
-		auto* sorter = new bubblesorter<int>;
-		Sequence<int>* res = sorter->sort(&arrSeqWorking, &lessThan<int>);
-	}
-		for (int i = 0; i < rnd_vector.size(); ++i)
-		{
-			ASSERT_EQUAL(arrSeqWorking.get(i), correct->get(i));	
-		}
-		arrSeqWorking = arrSeq;
-	{
-		LOG_DURATION("Sort with mergesorter");
-		auto* sorter = new mergesorter<int>;
-		Sequence<int>* res = sorter->sort(&arrSeqWorking, &lessThan<int>);
-	}
-		for (int i = 0; i < rnd_vector.size(); ++i)
-		{
-			ASSERT_EQUAL(arrSeqWorking.get(i), correct->get(i));	
-		}
-	arrSeqWorking = arrSeq;
-	{
-		LOG_DURATION("Sort with qsorter");
-		auto* sorter = new qsorter<int>;
-		Sequence<int>* res = sorter->sort(&arrSeqWorking, &lessThan<int>);
-	}
-		for (int i = 0; i < rnd_vector.size(); ++i)
-		{
-			ASSERT_EQUAL(arrSeqWorking.get(i), correct->get(i));	
-		}
-	arrSeqWorking = arrSeq;
-	{
-		LOG_DURATION("Sort with shellsorter");
-		auto* sorter = new shellsorter<int>;
-		Sequence<int>* res = sorter->sort(&arrSeqWorking, &lessThan<int>);
-	}
-	for (int i = 0; i < rnd_vector.size(); ++i)
-		{
-			ASSERT_EQUAL(arrSeqWorking.get(i), correct->get(i));	
-		}
+	TestAll();
 	return 0;
 }

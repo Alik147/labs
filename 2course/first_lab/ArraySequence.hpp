@@ -18,13 +18,13 @@ public:
         this->arr = new DynamicArray<T>();
     }
 
-    ArraySequence(const ArraySequence<T>& list){
-        this->arr = list.arr;
-        // T data[list.getLength()];
-        // for (int i = 0; i < list.getLength(); i++) {
-        //     data[i] = list.get(i);
-        // }
-        // this->arr = new DynamicArray<T>(data, list.getLength());
+    ArraySequence(ArraySequence<T>& list){
+        // this->arr = list.arr;
+        T data[list.getLength()];
+        for (int i = 0; i < list.getLength(); i++) {
+            data[i] = list.get(i);
+        }
+        this->arr = new DynamicArray<T>(data, list.getLength());
     }
 
     void print() override{
@@ -32,6 +32,10 @@ public:
     }
 
     int getLength()  override{
+        return this->arr->getSize();
+    }
+
+    int getLength() const{
         return this->arr->getSize();
     }
 
@@ -47,6 +51,9 @@ public:
         return this->arr->get(i);
     }
 
+    T get(const int i)  const{
+        return this->arr->get(i);
+    }
     Sequence<T> *getSubsequence(const int startIndex, const int endIndex) override{
          const int arraySize = endIndex - startIndex + 1;
          T* box = new T[arraySize];
@@ -106,3 +113,26 @@ public:
 
     ~ArraySequence() = default;
 };
+template<typename T>
+bool operator==(const ArraySequence<T>& l, const ArraySequence<T>& r){
+    if (l.getLength() != r.getLength())
+    {
+        return false;
+    }
+    for (int i = 0; i < l.getLength(); ++i)
+    {
+        if (l.get(i) != r.get(i))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const ArraySequence<T>& obj){
+    for (int i = 0; i < obj.getLength(); ++i)
+    {
+        os<<obj.get(i)<<' ';
+    }
+    return os;
+}
