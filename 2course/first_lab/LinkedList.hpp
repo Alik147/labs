@@ -2,7 +2,7 @@
 
 template<class T>
 class LinkedList {
-private:
+public:
     typedef struct Element {
         T value;
         Element *next;
@@ -11,17 +11,27 @@ private:
     Element *tail;
 public:
     LinkedList(T *items, int count){
-        this->head = new Element;
-        Element* ptr = this->head;
-        for (int i = 0; i < count-1; ++i)
+        // this->head = new Element;
+        // Element* ptr = this->head;
+        // for (int i = 0; i < count-1; ++i)
+        // {
+        //     ptr->value = items[i];
+        //     ptr->next = new Element;
+        //     ptr = ptr->next;
+        // }
+        // ptr->value = items[count - 1];
+        // ptr->next = nullptr;
+        // this->tail = ptr;
+        this->head = nullptr;
+        this->tail = nullptr;
+        // std::cout<<"items size "<< count << std::endl;
+        for (size_t i = 0; i < count; i++)
         {
-            ptr->value = items[i];
-            ptr->next = new Element;
-            ptr = ptr->next;
+            // std::cout<<items[i]<<std::endl;
+            this->append(items[i]);
+            // std::cout<<"321"<<std::endl;
         }
-        ptr->value = items[count - 1];
-        ptr->next = nullptr;
-        this->tail = ptr;
+        // std::cout<<"done"<<std::endl;
     }
 
     LinkedList(){
@@ -82,20 +92,43 @@ public:
     }
 
     int getLength(){
-        int length = 0;
+        if (head == nullptr)
+        {
+            return 0;
+        }
+        
+        int length = 1;
         Element *ptr = this->head;
-        while (ptr != nullptr) {
+        while (ptr->next != nullptr) {
             length++;
             ptr = ptr->next;
         }
         return length;
     }
-
+    
     void append(T item){
+        Element* newElem = new Element;
+        newElem->value = item;
+        newElem->next = nullptr;
+        if (this->getLength() == 0)
+        {
+            this->head = new Element;
+            // std::cout<<newElem->value<<endl;
+            this->head = newElem;
+            this->tail = this->head;
+            // std::cout<<"ASDASD"<<endl;
+            return;
+        }
+
         this->tail->next = new Element;
+        this->tail->next = newElem;
         this->tail = this->tail->next;
-        this->tail->next = nullptr;
-        this->tail->value = item;
+        
+        // this->tail->next = new Element;
+        // this->tail = this->tail->next;
+        // this->tail->next = nullptr;
+        // this->tail->value = item;
+        
     }
 
     void prepend(T item){

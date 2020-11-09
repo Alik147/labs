@@ -18,16 +18,21 @@ public:
     	this->list = new LinkedList<T>();
     }
 
-    LinkedListSequence(LinkedListSequence<T> &linkedList){
+    LinkedListSequence(LinkedListSequence<T>& linkedList){
+        
     	T* box = new T[linkedList.getLength()];
 	    for (int i = 0; i < linkedList.getLength(); i++) {
 	        box[i] = linkedList.get(i);
 	    }
-   		list = new LinkedList<T>(box, linkedList.getLength());
+   		this->list = new LinkedList<T>(box, linkedList.getLength());
     }
 
     int getLength() override{
     	return this->list->getLength();
+    }
+
+    int getLength() const{
+        return this->list->getLength();
     }
 
     T getFirst() override{
@@ -41,7 +46,9 @@ public:
     T get(int i) override{
     	return this->list->get(i);
     }
-
+    T get(int i) const{
+        return this->list->get(i);
+    }
     Sequence<T> *getSubsequence(const int startIndex, const int endIndex) override{
     	int listSize = endIndex - startIndex + 1;
     	T* newList = new T[listSize];
@@ -93,3 +100,26 @@ public:
 
     ~LinkedListSequence() = default;
 };
+template<typename T>
+bool operator==(const LinkedListSequence<T>& l, const LinkedListSequence<T>& r){
+    if (l.getLength() != r.getLength())
+    {
+        return false;
+    }
+    for (int i = 0; i < l.getLength(); ++i)
+    {
+        if (l.get(i) != r.get(i))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const LinkedListSequence<T>& obj){
+    for (int i = 0; i < obj.getLength(); ++i)
+    {
+        os<<obj.get(i)<<' ';
+    }
+    return os;
+}
