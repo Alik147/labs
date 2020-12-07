@@ -35,7 +35,7 @@ public:
         }
     }
     
-    T get(int index){
+    T get(const int& index){
         if (index<0 || index>=size)
         {
             std::cout<<"index out of range"<<std::endl;
@@ -48,15 +48,15 @@ public:
         return this->size;
     }
 
-    void set(int index,T value){
+    void set(const int& index,const T& value){
         if (index<0 || index>=size)
         {
-           std::cout<<"index out of range"<<std::endl;
+          throw std::out_of_range("...");
         }    else {
             data[index] = value;
         }        
     }
-    void Resize(int newSize){
+    void Resize(const int& newSize){
         T* box = new T[newSize];
         int i = newSize > size ? size : newSize;
         for (int j = 0; j < i; ++j)

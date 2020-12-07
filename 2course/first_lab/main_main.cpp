@@ -28,7 +28,19 @@ void SeqFill(size_t size, Sequence<int>* v){
 		v->append(rand() % 1000000);
 	}
 }
+void SeqFillSorted(size_t size, Sequence<int>* v){
+	for (int i = 0; i < size; ++i)
+	{
+		v->append(i);
+	}
+}
 
+void SeqFillSortedBack(size_t size, Sequence<int>* v){
+	for (int i = size; i >= 0; --i)
+	{
+		v->append(i);
+	}
+}
 
 void Arr_bublleSortTest();
 void Arr_qSortTest();
@@ -49,7 +61,6 @@ void TestAll() {
   RUN_TEST(tr, Arr_mergeSortTest);
   RUN_TEST(tr, Arr_qSortTest);
   RUN_TEST(tr, Arr_heapSortTest);
-  cout<<endl;
   RUN_TEST(tr, List_bublleSortTest);
   RUN_TEST(tr, List_shellSortTest);
   RUN_TEST(tr, List_mergeSortTest);
@@ -62,11 +73,145 @@ int main(int argc, char const *argv[])
 {
 	srand((unsigned)time(NULL));
 	TestAll();
+	string answer = " ";
+
+	cout<<"WELCOME TO  THE LAB1 :)\n\n";
+	
+
+	while(answer != "exit") {
+		cout<<"1.test LinkedList\n";
+		cout<<"2.test DynamicArray\n";
+		cout<<">";
+		cin>>answer;
+		if (answer == "1")
+		{
+			LinkedListSequence<int> Seq;
+			size_t size;
+			cout<<"size = ";
+			cin>>size;
+			cout<<"how to fill:\n\t1.random\n\t2.sorted\n\t3.sorted in reverse order\n";
+			answer = "0";
+			while (answer!="1" || answer!="2" || answer!="3")
+			{
+				cout<<">";
+				cin>>answer;
+			}
+			if (answer == "1") SeqFillSorted(size, &Seq);
+			if (answer == "2") SeqFill(size, &Seq);
+			if (answer == "3") SeqFillSortedBack(size, &Seq);
+			cout<<"sort by:\n\t1.bubblesorter\n\t2.heapsorter\n\t3.mergesorter\n\t4.qsorter\n\t5.shellsorter\n";
+			cout<<'>';
+			cin>>answer;
+			if (answer == "1")
+			{
+				{
+				LOG_DURATION("Sort list with bubblesorter");
+				auto* sorter = new bubblesorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "2")
+			{
+				{
+				LOG_DURATION("Sort list with heapsorter");
+				auto* sorter = new heapsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "3")
+			{
+				{
+				LOG_DURATION("Sort list with mergesorter");
+				auto* sorter = new mergesorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "4")
+			{
+				{
+				LOG_DURATION("Sort list with qsorter");
+				auto* sorter = new qsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "5")
+			{
+				{
+				LOG_DURATION("Sort list with shellsorter");
+				auto* sorter = new shellsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			
+			answer = "0";
+		}
+		if (answer == "2")
+		{
+			ArraySequence<int> Seq;
+			size_t size;
+			cout<<"size = ";
+			cin>>size;
+			cout<<"how to fill:\n\t1.random\n\t2.sorted\n\t3.sorted in reverse order\n";
+			answer = "0";
+			cout<<">";
+			cin>>answer;
+			if (answer == "1") SeqFillSorted(size, &Seq);
+			if (answer == "2") SeqFill(size, &Seq);
+			if (answer == "3") SeqFillSortedBack(size, &Seq);
+			cout<<"sort by:\n\t1.bubblesorter\n\t2.heapsorter\n\t3.mergesorter\n\t4.qsorter\n\t5.shellsorter\n";
+			cout<<'>';
+			cin>>answer;
+			if (answer == "1")
+			{
+				{
+				LOG_DURATION("Sort arr with bubblesorter");
+				auto* sorter = new bubblesorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "2")
+			{
+				{
+				LOG_DURATION("Sort arr with heapsorter");
+				auto* sorter = new heapsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "3")
+			{
+				{
+				LOG_DURATION("Sort arr with mergesorter");
+				auto* sorter = new mergesorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "4")
+			{
+				{
+				LOG_DURATION("Sort arr with qsorter");
+				auto* sorter = new qsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			if (answer == "5")
+			{
+				{
+				LOG_DURATION("Sort arr with shellsorter");
+				auto* sorter = new shellsorter<int>;
+				sorter->sort(&Seq, &lessThan<int>);
+				}
+			}
+			
+			answer = "0";
+		}
+		
+		
+	}
 	return 0;
 }
 
 
-//ARRAY
+//-------------------------------------------------------------------------------------------------------------ARRAY
 
 void Arr_bublleSortTest(){
 	ArraySequence<int> arrSeq;
@@ -145,7 +290,7 @@ void Arr_heapSortTest(){
 
 
 
-//LIST
+//-------------------------------------------------------------------------------------------------------------LIST
 
 void List_bublleSortTest(){
 	
