@@ -91,58 +91,58 @@ int main(int argc, char const *argv[])
 			cin>>size;
 			cout<<"how to fill:\n\t1.random\n\t2.sorted\n\t3.sorted in reverse order\n";
 			answer = "0";
-			while (answer!="1" || answer!="2" || answer!="3")
-			{
+			
 				cout<<">";
 				cin>>answer;
-			}
+			
 			if (answer == "1") SeqFillSorted(size, &Seq);
 			if (answer == "2") SeqFill(size, &Seq);
 			if (answer == "3") SeqFillSortedBack(size, &Seq);
 			cout<<"sort by:\n\t1.bubblesorter\n\t2.heapsorter\n\t3.mergesorter\n\t4.qsorter\n\t5.shellsorter\n";
 			cout<<'>';
 			cin>>answer;
+			sorter<int>* sorter ;
 			if (answer == "1")
 			{
 				{
 				LOG_DURATION("Sort list with bubblesorter");
-				auto* sorter = new bubblesorter<int>;
-				sorter->sort(&Seq, &lessThan<int>);
+				sorter = new bubblesorter<int>;
+				
 				}
 			}
 			if (answer == "2")
 			{
 				{
 				LOG_DURATION("Sort list with heapsorter");
-				auto* sorter = new heapsorter<int>;
-				sorter->sort(&Seq, &lessThan<int>);
+				sorter = new heapsorter<int>;
+				// sorter->sort(&Seq, &lessThan<int>);
 				}
 			}
 			if (answer == "3")
 			{
 				{
 				LOG_DURATION("Sort list with mergesorter");
-				auto* sorter = new mergesorter<int>;
-				sorter->sort(&Seq, &lessThan<int>);
+				sorter = new mergesorter<int>;
+				// sorter->sort(&Seq, &lessThan<int>);
 				}
 			}
 			if (answer == "4")
 			{
 				{
 				LOG_DURATION("Sort list with qsorter");
-				auto* sorter = new qsorter<int>;
-				sorter->sort(&Seq, &lessThan<int>);
+				sorter = new qsorter<int>;
+				// sorter->sort(&Seq, &lessThan<int>);
 				}
 			}
 			if (answer == "5")
 			{
 				{
 				LOG_DURATION("Sort list with shellsorter");
-				auto* sorter = new shellsorter<int>;
-				sorter->sort(&Seq, &lessThan<int>);
+				sorter = new shellsorter<int>;
+				// sorter->sort(&Seq, &lessThan<int>);
 				}
 			}
-			
+			sorter->sort(&Seq, &lessThan<int>);
 			answer = "0";
 		}
 		if (answer == "2")
